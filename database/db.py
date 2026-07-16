@@ -70,6 +70,30 @@ def get_user_by_email(email):
         conn.close()
 
 
+def get_user_by_id(user_id):
+    conn = get_db()
+    try:
+        cursor = conn.execute(
+            "SELECT * FROM users WHERE id = ?",
+            (user_id,),
+        )
+        return cursor.fetchone()
+    finally:
+        conn.close()
+
+
+def get_expenses_by_user(user_id):
+    conn = get_db()
+    try:
+        cursor = conn.execute(
+            "SELECT * FROM expenses WHERE user_id = ? ORDER BY date DESC, id DESC",
+            (user_id,),
+        )
+        return cursor.fetchall()
+    finally:
+        conn.close()
+
+
 def seed_db():
     conn = get_db()
     try:
